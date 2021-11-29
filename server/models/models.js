@@ -6,16 +6,19 @@ const User = sequelize.define('users', {
     email: { type: DataTypes.STRING, unique: true },
     password: { type: DataTypes.STRING },
     role: { type: DataTypes.STRING, defaultValue: 'USER' },
-    firstName: { type: DataTypes.STRING},
-    lastName: { type: DataTypes.STRING}
+    firstName: { type: DataTypes.STRING },
+    lastName: { type: DataTypes.STRING }
 })
 
 const Basket = sequelize.define('baskets', {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    userId: { type: DataTypes.INTEGER, unique: true }
 })
 
 const BasketProduct = sequelize.define('basket_products', {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    productId: { type: DataTypes.INTEGER },
+    basketId: { type: DataTypes.INTEGER }
 })
 
 const Product = sequelize.define('products', {
@@ -52,9 +55,6 @@ Product.belongsTo(Type)
 
 Brand.hasMany(Product)
 Product.belongsTo(Brand)
-
-Product.hasMany(BasketProduct)
-BasketProduct.belongsTo(Product)
 
 Type.belongsToMany(Brand, { through: TypeBrand })
 Brand.belongsToMany(Type, { through: TypeBrand })
